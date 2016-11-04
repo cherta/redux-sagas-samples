@@ -1,4 +1,4 @@
-import url from 'url';
+import _url from 'url';
 
 let todos = [
   { id: 1, text: 'learn about JSON', status: 'complete' },
@@ -8,20 +8,23 @@ let todos = [
 
 export const fetch = (url) => {
   return new Promise((resolve, reject) => {
+    console.log(`Fetching todos at url "${url}"...`);
     if (url === '/todos?status=complete') {
       setTimeout(() => {
+        console.log("Done.");
         resolve(todos.filter(t => t.status === 'complete'));
       }, 1000);
     } else {
       setTimeout(() => {
+        console.log("Done.");
         resolve(todos);
       }, 1000);
     }
   });
 }
 
-export const update = (requestedUrl) => {
-  const id = Number(url.parse(requestedUrl).query.replace('id=',''));
+export const update = (url) => {
+  const id = Number(_url.parse(url).query.replace('id=',''));
   todos = todos.reduce((acc, item) => {
     if(item.id === id) {
       item.status = item.status === 'complete' ? 'incomplete' : 'complete';
@@ -29,7 +32,9 @@ export const update = (requestedUrl) => {
     return acc.concat(item);
   }, []);
   return new Promise((resolve, reject) => {
+    console.log(`Toggling todo completion at url "${url}"...`);
     setTimeout(() => {
+      console.log("Done.");
       resolve(todos.find(t => t.id === id));
     }, 1000);
   });
