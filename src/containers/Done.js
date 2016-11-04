@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { load as loadTodos } from '../reducers/todos';
 import { getAsArray as getTodosAsArray } from '../selectors/todos';
+import { Link } from 'react-router';
 import TodoList from '../components/TodoList';
 
 class Done extends Component {
@@ -13,7 +14,7 @@ class Done extends Component {
   render() {
     return (
       <div>
-        <h2>Done</h2>
+        <h2>Done <Link to='/all'>all</Link></h2>
         <TodoList todos={this.props.todos} />
       </div>
     );
@@ -21,7 +22,7 @@ class Done extends Component {
 }
 
 Done = connect((state) => ({
-  todos: getTodosAsArray(state.todos),
+  todos: getTodosAsArray(state.todos, 'complete'),
 }), {
   loadTodos,
 })(Done);

@@ -8,7 +8,6 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import createSagaMiddleware from 'redux-saga'
 
 import rootSaga from './sagas';
-import App from './containers/App';
 import Done from './containers/Done';
 import All from './containers/All';
 import './index.css';
@@ -27,10 +26,8 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path='/' component={App}>
-        <Route path='done' component={Done}/>
-        <Route path='all' component={All}/>
-      </Route>
+      <Route path='/' component={Done} />
+      <Route path='all' component={All} />
     </Router>
   </Provider>,
   document.getElementById('root')
