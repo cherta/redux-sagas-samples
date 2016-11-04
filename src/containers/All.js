@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { load as loadTodos } from '../reducers/todos';
+import { getAsArray as getTodosAsArray } from '../selectors/todos';
+import TodoList from '../components/TodoList';
 
 class All extends Component {
   componentDidMount() {
@@ -11,14 +13,15 @@ class All extends Component {
   render() {
     return (
       <div>
-        All
+        <h2>All</h2>
+        <TodoList todos={this.props.todos} />
       </div>
     );
   }
 }
 
 All = connect((state) => ({
-  a: 'b',
+  todos: getTodosAsArray(state.todos),
 }), {
   loadTodos,
 })(All);
