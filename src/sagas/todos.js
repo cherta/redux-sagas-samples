@@ -1,7 +1,10 @@
-import { takeLatest, delay } from 'redux-saga';
+import { takeLatest, takeEvery } from 'redux-saga';
 import { fork, put, select } from 'redux-saga/effects';
-import { fetch } from '../services';
-import { LOAD, LOAD_SUCCESS, LOAD_FAIL } from '../reducers/todos';
+import { fetch, update } from '../services';
+import {
+  LOAD, LOAD_SUCCESS, LOAD_FAIL,
+  COMPLETE, COMPLETE_SUCCESS, COMPLETE_FAIL,
+} from '../reducers/todos';
 
 function* load(action) {
   const todos = yield fetch(`/todos?status=${action.filter}`);
@@ -10,7 +13,6 @@ function* load(action) {
     type: LOAD_SUCCESS,
     items: todos,
   })
-
 }
 
 function* smartLoad(action) {
@@ -26,7 +28,14 @@ function* smartLoad(action) {
     type: LOAD_SUCCESS,
     items: todos,
   });
+}
 
+function* complete(action) {
+  const result = yield update(`/todos?id=${action.id}`);
+  yield put({
+    type: COMPLETE_SUCCESS,
+    item: result,
+  })
 }
 
 function* watchLoad() {
@@ -34,8 +43,13 @@ function* watchLoad() {
   // yield* takeLatest(LOAD, smartLoad);
 }
 
+function* watchComplete() {
+  yield* takeEvery(COMPLETE, complete);
+}
+
 export default function* watchTodos() {
   yield [
     fork(watchLoad),
+    fork(watchComplete),
   ]
 }

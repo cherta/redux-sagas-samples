@@ -6,6 +6,7 @@ const TodoList = ({ todos, onTodoClick }) => (
     {todos.map(todo =>
       <Todo key={todo.id} {...todo} onClick={() => onTodoClick(todo.id)} />
     )}
+    { todos.length === 0 && <li>No Items</li>}
   </ul>
 );
 
