@@ -1,3 +1,7 @@
+export const LOAD = "retail-status/report-attachments/LOAD";
+export const LOAD_SUCCESS = "retail-status/report-attachments/LOAD_SUCCESS";
+export const LOAD_FAIL = "retail-status/report-attachments/LOAD_FAIL";
+
 const initialState = {
   incomplete: {
     2: { id: 2, text: "learn about redux" },
@@ -16,3 +20,5 @@ const todos = (state = initialState, action) => {
 }
 
 export default todos;
+
+export const load = (filter) => ({ type: LOAD, filter })

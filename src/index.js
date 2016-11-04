@@ -1,18 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
+import createSagaMiddleware from 'redux-saga'
 
+import rootSaga from './sagas';
 import App from './containers/App';
 import Done from './containers/Done';
 import All from './containers/All';
 import './index.css';
 
-const store = createStore(reducers);
-const history = syncHistoryWithStore(browserHistory, store)
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+  reducers,
+  applyMiddleware(sagaMiddleware),
+);
+const history = syncHistoryWithStore(browserHistory, store);
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
