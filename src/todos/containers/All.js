@@ -1,34 +1,37 @@
+/* @flow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import {
   load as loadTodos,
   complete as completeTodo
-} from '../reducers/todos';
-import { getAsArray as getTodosAsArray } from '../selectors/todos';
-import { Link } from 'react-router';
+} from '../todos-actions';
+import { getAsArray as getTodosAsArray } from '../todos-selectors';
 import TodoList from '../components/TodoList';
 
-class Done extends Component {
+class All extends Component {
+
   componentDidMount() {
     const { loadTodos } = this.props;
-    loadTodos('complete');
+    loadTodos('all');
   }
 
   render() {
     return (
       <div>
-        <h2>Done <Link to='/all'>all</Link></h2>
+        <h2>All <Link to='/'>done</Link></h2>
         <TodoList todos={this.props.todos} onTodoClick={this.props.completeTodo} />
       </div>
     );
   }
+
 }
 
-Done = connect((state) => ({
-  todos: getTodosAsArray(state.todos, 'complete'),
+All = connect((state) => ({
+  todos: getTodosAsArray(state.todos, 'all'),
 }), {
   loadTodos,
   completeTodo,
-})(Done);
+})(All);
 
-export default Done;
+export default All;

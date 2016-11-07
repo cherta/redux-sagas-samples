@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux'
-import todos from './todos';
+import { reducer as todos } from '../todos';
 
-const todoApp = combineReducers({
+const app = combineReducers({
   todos,
   routing,
 });
 
-export default todoApp;
+export default app;

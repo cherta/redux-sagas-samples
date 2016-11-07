@@ -1,3 +1,4 @@
+/* @flow */
 import _url from 'url';
 
 let todos = [
@@ -6,7 +7,7 @@ let todos = [
   { id: 3, text: 'learn about sagas', status: 'incomplete' },
 ];
 
-export const fetch = (url) => {
+export const fetch = (url:string):Promise<any> => {
   return new Promise((resolve, reject) => {
     console.log(`Fetching todos at url "${url}"...`);
     if (url === '/todos?status=complete') {
@@ -23,8 +24,8 @@ export const fetch = (url) => {
   });
 }
 
-export const update = (url) => {
-  const id = Number(_url.parse(url).query.replace('id=',''));
+export const update = (url:string) => {
+  const id = Number((_url.parse(url).query || '').replace('id=',''));
   todos = todos.reduce((acc, item) => {
     if(item.id === id) {
       item.status = item.status === 'complete' ? 'incomplete' : 'complete';

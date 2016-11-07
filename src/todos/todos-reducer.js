@@ -1,20 +1,14 @@
-import { normalize } from './utils';
+/* @flow */
+import { COMPLETE, LOAD, COMPLETE_SUCCESS, LOAD_SUCCESS } from './todos-actions';
+import type { State, Action } from './todos-types';
+import normalize from '../lib/normalize';
 
-export const LOAD = 'redux-sagas-sample/todos/LOAD';
-export const LOAD_SUCCESS = 'redux-sagas-sample/todos/LOAD_SUCCESS';
-export const LOAD_FAIL = 'redux-sagas-sample/todos/LOAD_FAIL';
-export const COMPLETE = 'redux-sagas-sample/todos/COMPLETE';
-export const COMPLETE_SUCCESS = 'redux-sagas-sample/todos/COMPLETE_SUCCESS';
-export const COMPLETE_FAIL = 'redux-sagas-sample/todos/COMPLETE_FAIL';
-
-//Initial State
-const initialState = {
+const initialState:State = {
   incomplete: {},
   complete: {},
 };
 
-//Reducer
-const todos = (state = initialState, action) => {
+const todos = (state:State = initialState, action:Action) => {
   switch (action.type) {
     case COMPLETE:
     case LOAD:
@@ -33,7 +27,7 @@ const todos = (state = initialState, action) => {
           [action.item.id]: action.item,
         }
       };
-      delete newState[otherBranch][action.item.id];
+      delete newState[otherBranch][action.item.id.toString()];
       return newState;
     }
     case LOAD_SUCCESS: {
@@ -56,10 +50,5 @@ const todos = (state = initialState, action) => {
       return state;
   }
 }
-
-//Action Creators
-export const load = (filter) => ({ type: LOAD, filter })
-
-export const complete = (id) => ({ type: COMPLETE, id })
 
 export default todos;
